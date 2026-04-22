@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JYYR STORE</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg,#0f001f,#1a0033,#000);
+  color: white;
+  font-size: clamp(12px, 2.5vw, 16px);
+  overflow-x: hidden;
+}
+
+/* ANIMASI BG */
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(#9333ea33 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gerak 20s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes gerak {
+  from { transform: translate(0,0); }
+  to { transform: translate(-200px,-200px); }
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+/* TITLE */
+.title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #d946ef;
+  text-shadow: 0 0 15px #9333ea;
+  margin-bottom: 25px;
+}
+
+/* GRID */
+.grid {
+  display: flex;
+  justify-content: center;
+}
+
+/* CARD */
+.card {
+  width: 100%;
+  max-width: 450px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 18px;
+  padding: 20px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 20px rgba(147,51,234,0.3);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 30px rgba(217,70,239,0.6);
+}
+
+.card h3 {
+  color: #f0abfc;
+  text-align: center;
+}
+
+/* FORM */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* LABEL */
+.label {
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* INPUT */
+.input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.06);
+  color: white;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border: 1px solid #d946ef;
+  box-shadow: 0 0 12px #d946ef;
+}
+
+/* TOTAL */
+#total {
+  text-align: center;
+  font-weight: bold;
+  color: #e879f9;
+  background: rgba(0,0,0,0.4);
+  border-radius: 14px;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* BUTTON */
+.form button {
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(45deg,#9333ea,#d946ef);
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 15px #9333ea;
+  transition: 0.3s;
+}
+
+.form button:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 25px #d946ef;
+}
+
+/* DROPDOWN */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-selected {
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.3s;
+}
+
+.dropdown-selected:hover {
+  box-shadow: 0 0 15px #9333ea;
+}
+
+.arrow {
+  transition: 0.3s;
+}
+
+.dropdown.active .arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-list {
+  position: absolute;
+  width: 100%;
+  top: 110%;
+  left: 0;
+  background: rgba(20,0,40,0.95);
+  border-radius: 14px;
+  overflow: hidden;
+  max-height: 0;
+  transition: 0.3s;
+  box-shadow: 0 0 20px rgba(147,51,234,0.5);
+  backdrop-filter: blur(12px);
+  z-index: 99;
+}
+
+.dropdown.active .dropdown-list {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  padding: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.dropdown-item:hover {
+  background: rgba(217,70,239,0.2);
+}
+
+.dropdown-item.active {
+  background: linear-gradient(45deg,#9333ea,#d946ef);
+}
+
+/* RIPPLE */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: rippleAnim 0.6s linear;
+  background: rgba(255,255,255,0.4);
+}
+
+@keyframes rippleAnim {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ERROR */
+.error {
+  color: #f87171;
+  text-shadow: 0 0 8px #f87171;
+}
+
+.input-error {
+  border: 1px solid #f87171 !important;
+  box-shadow: 0 0 10px #f87171 !important;
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
+}
+
+/* POPUP */
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 999;
+}
+
+.popup.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.popup-box {
+  background: rgba(20,0,40,0.95);
+  padding: 28px 22px;
+  border-radius: 20px;
+  text-align: center;
+  width: 85%;
+  max-width: 320px;
+  box-shadow: 0 0 30px #d946ef;
+  animation: popupAnim 0.3s ease;
+}
+
+.popup-box h3 {
+  color: #f472b6;
+  margin-bottom: 10px;
+}
+
+.popup-box p {
+  margin: 12px 0 18px;
+  color: #ddd;
+}
+
+.popup-box button {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(45deg,#9333ea,#d946ef);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 10px #9333ea;
+  width: 100%;
+}
+
+@keyframes popupAnim {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+#loading .popup-box {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* WHATSAPP FLOAT */
+.wa-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 20px #25D366;
+  z-index: 999;
+  transition: 0.3s;
+  animation: waGlow 1.5s infinite;
+}
+
+.wa-float img {
+  width: 32px;
+}
+
+.wa-float:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px #25D366;
+}
+
+@keyframes waGlow {
+  0% { box-shadow: 0 0 10px #25D366; }
+  50% { box-shadow: 0 0 25px #25D366; }
+  100% { box-shadow: 0 0 10px #25D366; }
+}
+
+/* PAYMENT */
+.payment {
+  display: flex;
+  gap: 10px;
+}
+
+.pay-item {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s;
+}
+
+.pay-item:hover {
+  box-shadow: 0 0 10px #9333ea;
+}
+
+.pay-item.active {
+  background: linear-gradient(45deg,#9333ea,#d946ef);
+}
+
+/* GLOBAL FIX */
+input, button {
+  width: 100%;
+  box-sizing: border-box;
+}
+</style>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<body>
+<div id="popupQRIS" class="popup">
+  <div class="popup-box">
+    <h3>📷 Scan QRIS</h3>
+    
+    <img src="https://i.ibb.co/3yW5D9S/qris-example.png" 
+         style="width:100%;border-radius:12px;margin:10px 0;">
+
+    <p>Scan untuk melakukan pembayaran</p>
+
+    <button onclick="confirmBayar()">✅ Saya Sudah Bayar</button>
+    <button onclick="closeQRIS()">Tutup</button>
+  </div>
+</div>
+
+<div id="popupDANA" class="popup">
+  <div class="popup-box">
+    <h3>💳 Transfer DANA</h3>
+
+    <p id="nomorDana" style="font-size:18px;color:#f472b6;">
+      083890777348
+    </p>
+
+    <button onclick="copyDana()">📋 Copy Nomor</button>
+    <button onclick="confirmBayar()">✅ Saya Sudah Bayar</button>
+    <button onclick="closeDANA()">Tutup</button>
+  </div>
+</div>
+
+  <div id="popupSuccess" class="popup">
+  <div class="popup-box">
+    <h3>✅ Berhasil</h3>
+    <p>Order berhasil dikirim ke WhatsApp</p>
+    <button onclick="closeSuccess()">Oke</button>
+  </div>
+</div>
+
+<div id="popupDeskripsi" class="popup">
+  <div class="popup-box" style="max-height:80vh;overflow:auto;text-align:left">
+
+<pre style="white-space:pre-wrap;font-family:inherit;">
+
+╭┈┈┈┈┈┈┈𓊈𝗗𝗲𝘀𝗸𝗿𝗶𝗽𝘀𝗶 𝙎𝙪𝙣𝙩𝙞𝙠 𝙄𝙂𓊉 ᯓ
+│➭𝙵𝚕𝚊𝚐 𝙵𝚘𝚛 𝚁𝚎𝚟𝚒𝚎𝚠𝚜 𝙾𝙵𝙵 / 𓊆𝙿𝚎𝚗𝚌𝚎𝚝 𝙶𝚊𝚛𝚒𝚜 𝚃𝚒𝚐𝚊 >
+│➭𝙼𝚎𝚗𝚐𝚒𝚔𝚞𝚝𝚒 𝙳𝚊𝚗 𝙼𝚎𝚗𝚐𝚞𝚗𝚍𝚊𝚗𝚐 > 𝙼𝚊𝚝𝚒𝚔𝚊𝚗 𝙻𝚊𝚙𝚘𝚛𝚔𝚊𝚗
+│➭𝚄𝚗𝚝𝚞𝚔 𝙳𝚒 𝚃𝚒𝚗𝚓𝚊𝚞𓊇 𓊈 𝚆𝙰𝙹𝙸𝙱𓊉 𝙿𝚎𝚜𝚊𝚗𝚊𝚗 𝚍𝚎𝚗𝚐𝚊𝚗 𝚊𝚔𝚞𝚗
+│➭𝚝𝚊𝚛𝚐𝚎𝚝 𝚢𝚊𝚗𝚐 𝚋𝚎𝚛𝚜𝚒𝚏𝚊𝚝 𝚙𝚛𝚒𝚟𝚊𝚝, 𝚕𝚊𝚙𝚘𝚛𝚊𝚗 𝚝𝚒𝚗𝚓𝚊𝚞
+│➭𝚍𝚒𝚊𝚔𝚝𝚒𝚏𝚔𝚊𝚗, 𝚊𝚝𝚊𝚞 𝚝𝚎𝚕𝚊𝚑 𝚍𝚒𝚕𝚊𝚔𝚞𝚔𝚊𝚗
+│➭𝚙𝚎𝚗𝚐𝚐𝚊𝚗𝚝𝚒𝚊𝚗 𝚞𝚜𝚎𝚛𝚗𝚊𝚖𝚎, 𝚝𝚒𝚍𝚊𝚔 𝚍𝚊𝚙𝚊𝚝
+│➭𝚍𝚒𝚔𝚘𝚖𝚙𝚕𝚊𝚒𝚗 𝚊𝚙𝚊𝚋𝚒𝚕𝚊 𝚜𝚝𝚊𝚝𝚞𝚜 𝚙𝚎𝚜𝚊𝚗𝚊𝚗 𝚜𝚞𝚍𝚊𝚑
+│➭𝚂𝚞𝚔𝚜𝚜𝚎𝚜 𝚊𝚝𝚊𝚞 𝙿𝚊𝚛𝚝𝚒𝚊𝚕
+╰┈────────────⋆⋅☆⋅⋆────────────┈➤
+
+╭┈┈┈┈┈┈┈𓊈𝗗𝗲𝘀𝗸𝗿𝗶𝗽𝘀𝗶𓊉 ᯓ
+│➭ 𝚃𝙰𝚁𝙶𝙴𝚃 ⪼ ᴜꜱᴇʀɴᴀᴍᴇ/ʟɪɴɢ ᴠᴛ
+│➭ 𝚂𝚃𝙰𝚁𝚃 ⪼ 0-1 ᴊᴀᴍ
+│➭ 𝙰𝙲𝙲 𝙷𝚀 ⪼ ʀᴇᴀʟ ɪɴᴅᴏɴᴇꜱɪᴀ
+│➭ 𝚁𝙴𝙵𝙸𝙻𝙻 ⪼ ᴛɪᴅᴀᴋ/ɴᴏ ʀᴇꜰɪʟ
+│➭ 𝚀𝚄𝙰𝙻𝙸𝚃𝚈 ⪼ ʜQ (ʜɪɢʜ Qᴜᴀʟɪᴛʏ)
+│➭ 𝙳𝚁𝙾𝙿 ⪼ ɴᴏ ᴅʀᴏᴘ 100%
+│➭ 𝙺𝙴𝙰𝙼𝙰𝙽𝙰𝙽 ⪼ ᴀɴᴛɪ ʙᴇɴᴇᴅ 100%
+│➭ 𝙳𝚄𝚁𝙰𝚂𝙸 ⪼ ᴘᴇʀᴍᴀɴᴇɴᴛ 100%
+╰┈──────⋆⋅☆⋅⋆───────┈➤
+
+╭┈┈┈┈┈┈┈┈𓊈⚠𝗡𝗢𝗧𝗘'𝗦⚠𓊉 ᯓ
+│➭𝙿𝚊𝚜𝚝𝚒𝚔𝚊𝚗 𝙰𝚔𝚞𝚗/𝚅𝚝 𝚃𝚒𝚍𝚊𝚔 𝙳𝚒 𝙿𝚛𝚒𝚟𝚊𝚝𝚎
+│𝙰𝚐𝚊𝚛 𝙿𝚎𝚜𝚊𝚗𝚊𝚗 𝙱𝚎𝚛𝚓𝚊𝚕𝚊𝚗 𝙳𝚎𝚗𝚐𝚊𝚗 𝙰𝚖𝚊𝚗
+│➭ 𝚂𝚊𝚊𝚝 𝚕𝚊𝚢𝚊𝚗𝚊𝚗 𝚜𝚒𝚋𝚞𝚔, 𝚔𝚎𝚌𝚎𝚙𝚊𝚝𝚊𝚗
+│𝚊𝚠𝚊𝚕 𝚙𝚛𝚘𝚜𝚎𝚜 𝚋𝚎𝚛𝚞𝚋𝚊𝚑.
+│➭ 𝙹𝚊𝚗𝚐𝚊𝚗 𝚖𝚎𝚕𝚊𝚔𝚞𝚔𝚊𝚗 𝚙𝚎𝚖𝚎𝚜𝚊𝚗𝚊𝚗
+│𝚔𝚎𝚍𝚞𝚊 𝚙𝚊𝚍𝚊 𝚕𝚒𝚗𝚔 𝚢𝚊𝚗𝚐 𝚜𝚊𝚖𝚊 𝚜𝚎𝚋𝚎𝚕𝚞𝚖
+│𝚙𝚎𝚜𝚊𝚗𝚊𝚗 𝙰𝚗𝚍𝚊 𝚜𝚎𝚕𝚎𝚜𝚊𝚒 𝚍𝚒 𝚜𝚒𝚜𝚝𝚎𝚖.
+│➭ 𝙹𝚒𝚔𝚊 𝚊𝚍𝚊 𝚖𝚊𝚜𝚊𝚕𝚊𝚑 𝚍𝚎𝚗𝚐𝚊𝚗 𝚕𝚊𝚢𝚊𝚗𝚊𝚗,
+│𝚜𝚒𝚕𝚊𝚔𝚊𝚗 𝚑𝚞𝚋𝚞𝚗𝚐𝚒 𝙲𝚂.
+╰┈──────────⋆⋅☆⋅⋆─────────┈➤
+
+</pre>
+
+    <button onclick="closeDeskripsi()">Tutup</button>
+  </div>
+</div>
+
+  <div id="loading" class="popup">
+  <div class="popup-box">
+    <h3>⏳ Memproses...</h3>
+    <p>Mohon tunggu sebentar</p>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="title">𓊈 LIST SUNTIK TIKTOK & INSTAGRAM𓊉 JYYR</div>
+
+<div class="grid">
+
+<div class="card">
+<h3>🛒 Order Otomatis</h3>
+
+<div class="form">
+
+<label class="label">Target Username / Link</label>
+<input type="text" id="username" class="input" placeholder="contoh: @username">
+
+<label class="label">Pilih Layanan</label>
+
+<div class="dropdown">
+  <div class="dropdown-selected" onclick="toggleDropdown()">
+    <span id="selectedText">📈 TikTok Followers — Rp75 / 1 (Min 50)</span>
+    <span class="arrow">⌄</span>
+  </div>
+
+  <div class="dropdown-list">
+
+    <!-- 🔥 TIKTOK -->
+<div class="dropdown-item" style="pointer-events:none;opacity:0.6;">
+━━━ 📱 TIKTOK ━━━
+</div>
+
+<div class="dropdown-item active" data-value="75|9999|50" onclick="selectItem(this, event)">
+📈 TikTok Followers — Rp75 / 1 (Min 50)
+</div>
+
+<div class="dropdown-item" data-value="35|9999|100" onclick="selectItem(this, event)">
+❤️ TikTok Likes — Rp35 / 1 (Min 100)
+</div>
+
+<div class="dropdown-item" data-value="2.2|9999|1000" onclick="selectItem(this, event)">
+👁️ TikTok Views — Rp2.2 / 1 (Min 1000)
+</div>
+
+<div class="dropdown-item" data-value="1.7|9999|1000" onclick="selectItem(this, event)">
+🔄 TikTok Shares — Rp1.7 / 1 (Min 1000)
+</div>
+
+<div class="dropdown-item" data-value="2.7|9999|1000" onclick="selectItem(this, event)">
+💾 TikTok Saves — Rp2.7 / 1 (Min 1000)
+</div>
+
+<!-- 🔥 INSTAGRAM -->
+<div class="dropdown-item" style="pointer-events:none;opacity:0.6;">
+━━━ 📸 INSTAGRAM ━━━
+</div>
+
+<div class="dropdown-item" data-value="60|1000|50" onclick="selectItem(this, event)">
+📈 Instagram Followers — Rp60 / 1 (Min 50)
+</div>
+
+<div class="dropdown-item" data-value="30|1000|100" onclick="selectItem(this, event)">
+❤️ Instagram Likes — Rp30 / 1 (Min 100)
+</div>
+
+<div class="dropdown-item" data-value="0.75|10000|1000" onclick="selectItem(this, event)">
+👁️ Instagram Views — Rp0.75 / 1 (Min 1000)
+</div>
+
+<div class="dropdown-item" data-value="1.1|10000|1000" onclick="selectItem(this, event)">
+🔄 Instagram Share — Rp1.1 / 1 (Min 1000)
+</div>
+
+<div class="dropdown-item" data-value="7.5|1000|100" onclick="selectItem(this, event)">
+💾 Instagram Saves — Rp7.5 / 1 (Min 100)
+</div>
+
+  </div>
+</div>
+
+<input type="hidden" id="layanan" value="75|9999|50">
+
+<button onclick="openDeskripsi()" style="background:transparent;border:1px solid #d946ef;margin-top:8px;">
+  📄 Lihat Deskripsi ⚠️
+</button>
+
+<label class="label">Jumlah Pesanan</label>
+<input type="number" id="jumlah" class="input" placeholder="Masukkan jumlah" oninput="updateHarga()">
+
+<div id="total">Total: Rp 0</div>
+<div class="label">Metode Pembayaran</div>
+
+<div class="payment">
+  <div class="pay-item active" onclick="selectPay(this,'qris')">📷 QRIS</div>
+  <div class="pay-item" onclick="selectPay(this,'dana')">💳 DANA</div>
+</div>
+
+<input type="hidden" id="metode" value="qris">
+
+<button id="orderBtn" onclick="bukaPembayaran()">Bayar Sekarang</button>
+
+<div id="popupError" class="popup">
+  <div class="popup-box">
+    <h3>⚠️ Peringatan</h3>
+    <p id="popupText">Minimal order adalah 50</p>
+    <button onclick="closePopup()">Oke</button>
+  </div>
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<a href="https://whatsapp.com/channel/0029VbCH7C0E50Uid8KYwG1f" target="_blank" class="wa-float">
+  <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WA">
+</a>
+
+<!-- BAGIAN ATAS SAMA PERSIS PUNYA KAMU (TIDAK DIUBAH) -->
+<!-- ... (SEMUA HTML & CSS KAMU TETAP) ... -->
+
+<script>
+function selectPay(el, metode){
+  document.querySelectorAll(".pay-item").forEach(i=>i.classList.remove("active"));
+  el.classList.add("active");
+  document.getElementById("metode").value = metode;
+}
+
+function bukaPembayaran(){
+  var user = document.getElementById("username").value.trim();
+  var jumlah = parseInt(document.getElementById("jumlah").value);
+  var data = document.getElementById("layanan").value.split("|");
+
+  var min = parseInt(data[2]);
+  var max = parseInt(data[1]);
+  var input = document.getElementById("jumlah");
+
+  input.classList.remove("input-error");
+
+  if(!user){
+    showError("Username wajib diisi!");
+    return;
+  }
+
+  if(!jumlah){
+    input.classList.add("input-error");
+    showError("Masukkan jumlah pesanan!");
+    return;
+  }
+
+  if(jumlah < min){
+    input.classList.add("input-error");
+    showError("Minimal order adalah " + min);
+    return;
+  }
+
+  if(jumlah > max){
+    input.classList.add("input-error");
+    showError("Maksimal order adalah " + max);
+    return;
+  }
+
+  let metode = document.getElementById("metode").value;
+
+  if(metode === "qris"){
+    document.getElementById("popupQRIS").classList.add("show");
+  } else {
+    document.getElementById("popupDANA").classList.add("show");
+  }
+}
+
+function copyDana(){
+  let no = document.getElementById("nomorDana").innerText;
+  navigator.clipboard.writeText(no);
+  showError("Nomor DANA disalin!");
+}
+
+function openDeskripsi(){
+  document.getElementById("popupDeskripsi").classList.add("show");
+}
+
+function closeDeskripsi(){
+  document.getElementById("popupDeskripsi").classList.remove("show");
+}
+
+function toggleDropdown(){
+  document.querySelector(".dropdown").classList.toggle("active");
+}
+
+function selectItem(el, event){
+  const circle = document.createElement("span");
+  circle.classList.add("ripple");
+
+  const rect = el.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+
+  circle.style.width = circle.style.height = size + "px";
+  circle.style.left = (event.clientX - rect.left - size/2) + "px";
+  circle.style.top = (event.clientY - rect.top - size/2) + "px";
+
+  el.appendChild(circle);
+  setTimeout(() => circle.remove(), 600);
+
+  let value = el.getAttribute("data-value");
+  let text = el.innerText;
+
+  document.getElementById("layanan").value = value;
+  document.getElementById("selectedText").innerText = text;
+
+  document.querySelectorAll(".dropdown-item").forEach(i => i.classList.remove("active"));
+  el.classList.add("active");
+
+  document.querySelector(".dropdown").classList.remove("active");
+
+  updateHarga();
+}
+
+function updateHarga(){
+  var data = document.getElementById("layanan").value.split("|");
+
+  var harga = parseFloat(data[0]);
+  var max = parseInt(data[1]);
+  var min = parseInt(data[2]);
+
+  var input = document.getElementById("jumlah");
+  var jumlah = parseInt(input.value) || 0;
+  var totalBox = document.getElementById("total");
+
+  input.classList.remove("input-error");
+
+  if(!jumlah){
+    totalBox.innerHTML = "Total: Rp 0";
+    return;
+  }
+
+  if(jumlah < min){
+    totalBox.innerHTML =
+      "<span class='error'>⚠️ Minimal order adalah " + min + "</span>";
+    input.classList.add("input-error");
+    return;
+  }
+
+  if(jumlah > max){
+    totalBox.innerHTML =
+      "<span class='error'>⚠️ Maksimal order adalah " + max + "</span>";
+    input.classList.add("input-error");
+    return;
+  }
+
+  var total = harga * jumlah;
+
+  totalBox.innerHTML =
+    "Total: Rp " + total.toLocaleString("id-ID");
+}
+
+/* ================= FIX UTAMA ================= */
+function confirmBayar(){
+  var user = document.getElementById("username").value.trim();
+  var layananText = document.getElementById("selectedText").innerText;
+  var jumlah = parseInt(document.getElementById("jumlah").value);
+  var totalText = document.getElementById("total").innerText;
+
+  var data = document.getElementById("layanan").value.split("|");
+  var min = parseInt(data[2]);
+  var max = parseInt(data[1]);
+
+  var input = document.getElementById("jumlah");
+
+  input.classList.remove("input-error");
+
+  if(!user){
+    showError("Username wajib diisi!");
+    return;
+  }
+
+  if(!jumlah){
+    input.classList.add("input-error");
+    showError("Masukkan jumlah pesanan!");
+    return;
+  }
+
+  if(jumlah < min){
+    input.classList.add("input-error");
+    showError("Minimal order adalah " + min);
+    return;
+  }
+
+  if(jumlah > max){
+    input.classList.add("input-error");
+    showError("Maksimal order adalah " + max);
+    return;
+  }
+
+  document.getElementById("popupQRIS").classList.remove("show");
+  document.getElementById("popupDANA").classList.remove("show");
+
+  showLoading();
+
+  var nomor = "6283890777348";
+
+  var text = "Halo Admin JYYR STORE%0A%0A"
+           + "Saya SUDAH BAYAR%0A"
+           + "====================%0A"
+           + "Username: " + user + "%0A"
+           + "Layanan: " + layananText + "%0A"
+           + "Jumlah: " + jumlah + "%0A"
+           + totalText + "%0A"
+           + "====================";
+
+  setTimeout(() => {
+    hideLoading();
+    showSuccess();
+
+    setTimeout(() => {
+      window.open("https://wa.me/" + nomor + "?text=" + text, "_blank");
+
+      // reset form
+      document.getElementById("username").value = "";
+      document.getElementById("jumlah").value = "";
+      document.getElementById("total").innerText = "Total: Rp 0";
+
+    }, 1000);
+
+  }, 1200);
+}
+/* ============================================ */
+
+/* FIX: HARUS DI LUAR */
+function closeQRIS(){
+  document.getElementById("popupQRIS").classList.remove("show");
+}
+
+function closeDANA(){
+  document.getElementById("popupDANA").classList.remove("show");
+}
+
+/* ERROR POPUP */
+function showError(msg){
+  document.getElementById("popupText").innerText = msg;
+  document.getElementById("popupError").classList.add("show");
+}
+
+function closePopup(){
+  document.getElementById("popupError").classList.remove("show");
+}
+
+document.addEventListener("click", function(e){
+  const dropdown = document.querySelector(".dropdown");
+  if(!dropdown.contains(e.target)){
+    dropdown.classList.remove("active");
+  }
+});
+
+function showLoading(){
+  document.getElementById("loading").classList.add("show");
+}
+
+function hideLoading(){
+  document.getElementById("loading").classList.remove("show");
+}
+
+function showSuccess(){
+  document.getElementById("popupSuccess").classList.add("show");
+}
+
+function closeSuccess(){
+  document.getElementById("popupSuccess").classList.remove("show");
+}
+
+/* ANIMASI TOMBOL */
+document.getElementById("orderBtn").addEventListener("click", function(){
+  this.style.transform = "scale(0.97)";
+  setTimeout(() => this.style.transform = "scale(1)", 150);
+});
+</script>
+
+</body>
+</html>
