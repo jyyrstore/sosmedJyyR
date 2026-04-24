@@ -11,7 +11,7 @@
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg,#0f001f,#1a0033,#000);
+  background: linear-gradient(180deg, #1a0033, #1a0033, #1a0033);
   color: white;
   font-size: clamp(12px, 2.5vw, 16px);
   overflow-x: hidden;
@@ -150,8 +150,8 @@ body::before {
 .dropdown-selected {
   padding: 14px;
   border-radius: 14px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(147,51,234,0.15);
+  border: 1px solid rgba(147,51,234,0.5);
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -187,16 +187,22 @@ body::before {
 }
 
 .dropdown.active .dropdown-list {
-  max-height: 500px;
+  max-height: 150px;   /* dari 500px → jadi kecil */
   overflow-y: auto;
 }
 
 .dropdown-item {
-  padding: 14px;
+  padding: 10px 12px;   /* biar tetap ada ruang */
+  
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 14px;
+  line-height: normal;
+
   cursor: pointer;
   transition: 0.2s;
-  position: relative;
-  overflow: hidden;
 }
 
 .dropdown-item:hover {
@@ -205,6 +211,11 @@ body::before {
 
 .dropdown-item.active {
   background: linear-gradient(45deg,#9333ea,#d946ef);
+}
+
+#selectedText {
+  font-size: 16px;
+  font-weight: bold;
 }
 
 /* RIPPLE */
@@ -279,7 +290,7 @@ body::before {
 }
 
 .popup-box p {
-  margin: 12px 0 18px;
+  margin: 15px 0 18px;
   color: #ddd;
 }
 
@@ -307,6 +318,12 @@ body::before {
   0% { transform: scale(1); opacity: 0.8; }
   50% { transform: scale(1.05); opacity: 1; }
   100% { transform: scale(1); opacity: 0.8; }
+}
+
+.popup-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* 🔥 jarak antar semua isi */
 }
 
 /* WHATSAPP FLOAT */
@@ -372,15 +389,32 @@ input, button {
   width: 100%;
   box-sizing: border-box;
 }
-</style>
+
+.btn-deskripsi {
+  background: linear-gradient(45deg,#1e3a8a,#2563eb);
+  color: white;
+  border: none;
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+}
+.btn-deskripsi:hover {
+  filter: brightness(1.1);
+}
+
+.btn-deskripsi:active {
+  filter: brightness(0.8);
+}
+  </style>
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <body>
 <div id="popupQRIS" class="popup">
   <div class="popup-box">
-    <h3>📷 Scan QRIS</h3>
+    <h3>Scan QRIS</h3>
     
-    <img src="https://i.ibb.co/3yW5D9S/qris-example.png" 
+    <img src="https://i.ibb.co.com/TxXvM88Y/qrisjyyr.png" 
          style="width:100%;border-radius:12px;margin:10px 0;">
 
     <p>Scan untuk melakukan pembayaran</p>
@@ -392,10 +426,10 @@ input, button {
 
 <div id="popupDANA" class="popup">
   <div class="popup-box">
-    <h3>💳 Transfer DANA</h3>
+    <h3>Transfer DANA</h3>
 
     <p id="nomorDana" style="font-size:18px;color:#f472b6;">
-      083890777348
+      083836898632
     </p>
 
     <button onclick="copyDana()">📋 Copy Nomor</button>
@@ -490,7 +524,8 @@ input, button {
 
     <!-- 🔥 TIKTOK -->
 <div class="dropdown-item" style="pointer-events:none;opacity:0.6;">
-━━━ 📱 TIKTOK ━━━
+  <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png"
+       style="height:25px;"> TikTok
 </div>
 
 <div class="dropdown-item active" data-value="75|9999|50" onclick="selectItem(this, event)">
@@ -515,7 +550,8 @@ input, button {
 
 <!-- 🔥 INSTAGRAM -->
 <div class="dropdown-item" style="pointer-events:none;opacity:0.6;">
-━━━ 📸 INSTAGRAM ━━━
+  <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
+       style="height:25px;">Instagram
 </div>
 
 <div class="dropdown-item" data-value="60|1000|50" onclick="selectItem(this, event)">
@@ -543,8 +579,8 @@ input, button {
 
 <input type="hidden" id="layanan" value="75|9999|50">
 
-<button onclick="openDeskripsi()" style="background:transparent;border:1px solid #d946ef;margin-top:8px;">
-  📄 Lihat Deskripsi ⚠️
+<button class="btn-deskripsi" onclick="openDeskripsi()">
+  Lihat Deskripsi ⚠
 </button>
 
 <label class="label">Jumlah Pesanan</label>
@@ -554,8 +590,14 @@ input, button {
 <div class="label">Metode Pembayaran</div>
 
 <div class="payment">
-  <div class="pay-item active" onclick="selectPay(this,'qris')">📷 QRIS</div>
-  <div class="pay-item" onclick="selectPay(this,'dana')">💳 DANA</div>
+  <div class="pay-item active" onclick="selectPay(this,'qris')">
+    <img src="https://i.ibb.co.com/wZmkrj6z/QRIS-Quick-Response-Code-Indonesia-Standard-Logo-PNG2160p-Vector69-Com.png" 
+         style="height:20px; vertical-align:middle; margin-right:5px;">
+  </div>
+
+  <div class="pay-item" onclick="selectPay(this,'dana')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" style="height:20px; vertical-align:middle; margin-right:5px;">
+  </div>
 </div>
 
 <input type="hidden" id="metode" value="qris">
@@ -839,4 +881,4 @@ document.getElementById("orderBtn").addEventListener("click", function(){
 </script>
 
 </body>
-</html>
+  </html>
