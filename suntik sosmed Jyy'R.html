@@ -8,16 +8,29 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
 
-body {
+/* ================= GLOBAL ================= */
+html, body {
   margin: 0;
+  padding: 0;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(180deg, #1a0033, #1a0033, #1a0033);
+  background: linear-gradient(180deg, #1a0033);
   color: white;
-  font-size: clamp(12px, 2.5vw, 16px);
+  font-size: 14px;
+
+  height: auto;
   overflow-x: hidden;
+  overflow-y: auto;
+
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 
-/* ANIMASI BG */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ================= BG ANIMATION ================= */
 body::before {
   content: "";
   position: fixed;
@@ -25,7 +38,7 @@ body::before {
   height: 200%;
   background: radial-gradient(#9333ea33 1px, transparent 1px);
   background-size: 40px 40px;
-  animation: gerak 20s linear infinite;
+  animation: gerak 25s linear infinite;
   pointer-events: none;
   z-index: 0;
 }
@@ -35,32 +48,69 @@ body::before {
   to { transform: translate(-200px,-200px); }
 }
 
-/* CONTAINER */
+/* ================= CONTAINER ================= */
 .container {
   max-width: 1000px;
   margin: auto;
   padding: 20px;
   position: relative;
-  z-index: 2;
+  z-index: 10;
 }
 
-/* TITLE */
+/* ================= HEADER ================= */
 .title {
   text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  color: #d946ef;
-  text-shadow: 0 0 15px #9333ea;
   margin-bottom: 25px;
 }
 
-/* GRID */
+.logo-img {
+  height: 100px;
+  display: block;
+  margin: 0 auto 8px auto;
+  border-radius: 12px;
+  filter: drop-shadow(0 0 10px rgba(147,51,234,0.5));
+}
+
+.nickname {
+  font-size: 20px;
+  font-weight: bold;
+  color: #d946ef;
+  text-shadow: 0 0 12px #9333ea;
+}
+
+/* ================= MARQUEE ================= */
+.marquee {
+  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.marquee span {
+  display: inline-block;
+  padding-right: 50px;
+  will-change: transform;
+}
+
+.marquee {
+  mask-image: linear-gradient(to right, transparent, white 10%, white 90%, transparent);
+}
+
+.speed-1 span {
+  animation: jalan 19s linear infinite;
+}
+
+@keyframes jalan {
+  0% { transform: translateX(4%); }
+  100% { transform: translateX(-70%); }
+}
+
+/* ================= GRID ================= */
 .grid {
   display: flex;
   justify-content: center;
 }
 
-/* CARD */
+/* ================= CARD ================= */
 .card {
   width: 100%;
   max-width: 450px;
@@ -71,11 +121,14 @@ body::before {
   border: 1px solid rgba(255,255,255,0.1);
   box-shadow: 0 0 20px rgba(147,51,234,0.3);
   transition: 0.3s;
+  position: relative;
+  z-index: 11;
+  overflow: visible;
 }
 
 .card:hover {
   transform: scale(1.02);
-  box-shadow: 0 0 30px rgba(217,70,239,0.6);
+  box-shadow: 0 0 15px rgba(217,70,239,0.6);
 }
 
 .card h3 {
@@ -83,20 +136,21 @@ body::before {
   text-align: center;
 }
 
-/* FORM */
+/* ================= FORM ================= */
 .form {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  position: relative;
+  z-index: 11;
 }
 
-/* LABEL */
 .label {
   font-size: 12px;
   color: #aaa;
 }
 
-/* INPUT */
+/* ================= INPUT ================= */
 .input {
   width: 100%;
   padding: 14px;
@@ -105,15 +159,15 @@ body::before {
   background: rgba(255,255,255,0.06);
   color: white;
   font-size: 14px;
-  box-sizing: border-box;
 }
 
 .input:focus {
   border: 1px solid #d946ef;
   box-shadow: 0 0 12px #d946ef;
+  outline: none;
 }
 
-/* TOTAL */
+/* ================= TOTAL ================= */
 #total {
   text-align: center;
   font-weight: bold;
@@ -124,8 +178,8 @@ body::before {
   border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* BUTTON */
-.form button {
+/* ================= BUTTON ================= */
+button {
   height: 48px;
   border-radius: 12px;
   background: linear-gradient(45deg,#9333ea,#d946ef);
@@ -135,16 +189,24 @@ body::before {
   cursor: pointer;
   box-shadow: 0 0 15px #9333ea;
   transition: 0.3s;
+  width: 100%;
+  position: relative;
+  z-index: 12;
 }
 
-.form button:hover {
+button:hover {
   transform: scale(1.03);
   box-shadow: 0 0 25px #d946ef;
 }
 
-/* DROPDOWN */
+button:active {
+  transform: scale(0.97);
+}
+
+/* ================= DROPDOWN ================= */
 .dropdown {
   position: relative;
+  z-index: 20;
 }
 
 .dropdown-selected {
@@ -156,11 +218,13 @@ body::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: 0.3s;
+
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
-.dropdown-selected:hover {
-  box-shadow: 0 0 15px #9333ea;
+.dropdown-selected::-webkit-scrollbar {
+  display: none;
 }
 
 .arrow {
@@ -183,24 +247,19 @@ body::before {
   transition: 0.3s;
   box-shadow: 0 0 20px rgba(147,51,234,0.5);
   backdrop-filter: blur(12px);
-  z-index: 99;
+  z-index: 999;
 }
 
 .dropdown.active .dropdown-list {
-  max-height: 150px;   /* dari 500px → jadi kecil */
+  max-height: 200px;
   overflow-y: auto;
 }
 
 .dropdown-item {
-  padding: 10px 12px;   /* biar tetap ada ruang */
-  
+  padding: 10px 12px;
   display: flex;
   align-items: center;
   gap: 8px;
-
-  font-size: 14px;
-  line-height: normal;
-
   cursor: pointer;
   transition: 0.2s;
 }
@@ -213,12 +272,7 @@ body::before {
   background: linear-gradient(45deg,#9333ea,#d946ef);
 }
 
-#selectedText {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-/* RIPPLE */
+/* ================= RIPPLE ================= */
 .ripple {
   position: absolute;
   border-radius: 50%;
@@ -234,7 +288,7 @@ body::before {
   }
 }
 
-/* ERROR */
+/* ================= ERROR ================= */
 .error {
   color: #f87171;
   text-shadow: 0 0 8px #f87171;
@@ -254,18 +308,21 @@ body::before {
   100% { transform: translateX(0); }
 }
 
-/* POPUP */
+/* ================= POPUP ================= */
 .popup {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   opacity: 0;
   pointer-events: none;
-  transition: 0.3s;
-  z-index: 999;
+  transition: 0.3s ease;
+  z-index: 9999;
 }
 
 .popup.show {
@@ -275,41 +332,87 @@ body::before {
 
 .popup-box {
   background: rgba(20,0,40,0.95);
-  padding: 28px 22px;
-  border-radius: 20px;
+  width: 90%;
+  max-width: 380px;
+
+  border-radius: 24px;
+  padding: 20px;
+
+  box-shadow: 0 10px 40px rgba(217,70,239,0.35);
+
   text-align: center;
-  width: 85%;
-  max-width: 320px;
-  box-shadow: 0 0 30px #d946ef;
-  animation: popupAnim 0.3s ease;
+
+  max-height: 85vh;
+  overflow-y: auto;
+
+  animation: popupAnim 0.25s ease;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.popup-box h3 {
-  color: #f472b6;
-  margin-bottom: 10px;
-}
-
-.popup-box p {
-  margin: 15px 0 18px;
-  color: #ddd;
-}
-
-.popup-box button {
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: linear-gradient(45deg,#9333ea,#d946ef);
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 0 10px #9333ea;
-  width: 100%;
-}
-
+/* animasi */
 @keyframes popupAnim {
-  from { transform: scale(0.7); opacity: 0; }
+  from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
+/* ================= TOMBOL ================= */
+.popup-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* override tombol global */
+.popup-actions button {
+  width: auto !important;
+  padding: 10px 16px;
+  flex: none;
+}
+
+/* optional biar lebih cakep */
+.btn-hapus {
+  background: linear-gradient(45deg,#ef4444,#f87171);
+}
+
+/* ================= TOMBOL EXIT ================= */
+.btn-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(147,51,234,0.3);
+  transition: 0.2s;
+}
+
+.btn-close:hover {
+  background: rgba(217,70,239,0.3);
+  transform: scale(1.1);
+}
+
+.popup-box {
+  position: relative;
+}
+
+/* ================= LOADING ================= */
 #loading .popup-box {
   animation: pulse 1s infinite;
 }
@@ -320,46 +423,27 @@ body::before {
   100% { transform: scale(1); opacity: 0.8; }
 }
 
-.popup-box {
-  display: flex;
-  flex-direction: column;
-  gap: 12px; /* 🔥 jarak antar semua isi */
-}
-
-/* WHATSAPP FLOAT */
+/* ================= WA FLOAT ================= */
 .wa-float {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   background: #25D366;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0 0 20px #25D366;
-  z-index: 999;
-  transition: 0.3s;
-  animation: waGlow 1.5s infinite;
+  z-index: 9999;
 }
 
 .wa-float img {
   width: 32px;
 }
 
-.wa-float:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 30px #25D366;
-}
-
-@keyframes waGlow {
-  0% { box-shadow: 0 0 10px #25D366; }
-  50% { box-shadow: 0 0 25px #25D366; }
-  100% { box-shadow: 0 0 10px #25D366; }
-}
-
-/* PAYMENT */
+/* ================= PAYMENT ================= */
 .payment {
   display: flex;
   gap: 10px;
@@ -373,43 +457,63 @@ body::before {
   background: rgba(255,255,255,0.05);
   cursor: pointer;
   border: 1px solid rgba(255,255,255,0.1);
-  transition: 0.3s;
-}
-
-.pay-item:hover {
-  box-shadow: 0 0 10px #9333ea;
 }
 
 .pay-item.active {
   background: linear-gradient(45deg,#9333ea,#d946ef);
 }
 
-/* GLOBAL FIX */
-input, button {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.btn-deskripsi {
-  background: linear-gradient(45deg,#1e3a8a,#2563eb);
-  color: white;
-  border: none;
-  margin-top: 15px;
-  font-size: 16px;
-  font-weight: bold;
+/* ================= EXTRA ================= */
+.upload-box {
+  display: block;
+  background: #1f2937;
+  padding: 12px;
   border-radius: 10px;
-}
-.btn-deskripsi:hover {
-  filter: brightness(1.1);
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-.btn-deskripsi:active {
-  filter: brightness(0.8);
+.upload-box input {
+  display: none;
 }
-  </style>
+
+#uploadText {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.btn-riwayat {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(45deg,#9333ea,#d946ef);
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 0 15px #9333ea;
+  z-index: 9999;
+}
+</style>
 </head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <body>
+<button class="btn-riwayat" onclick="lihatRiwayat()">📜</button>
+<div id="popupRiwayat" class="popup">
+  
+  <div class="popup-box" style="max-height:80vh;overflow:auto;text-align:left">
+    <h3>📜 Riwayat Pesanan</h3>
+    <div id="listRiwayat">Belum ada pesanan</div>
+    <button onclick="hapusRiwayat()">🗑 Hapus Riwayat</button>
+    <button class="btn-close" onclick="closeRiwayat()">×</button>
+  </div>
+</div>
+
 <div id="popupQRIS" class="popup">
   <div class="popup-box">
     <h3>Scan QRIS</h3>
@@ -419,8 +523,15 @@ input, button {
 
     <p>Scan untuk melakukan pembayaran</p>
 
+<label class="upload-box">
+  <input type="file" id="bukti" accept="image/*" onchange="previewBukti(event)">
+  <span id="uploadText">📸 Upload Bukti Pembayaran</span>
+</label>
+
+<img id="previewImg" style="display:none;width:100%;border-radius:10px;margin:10px 0;">
+
     <button onclick="confirmBayar()">✅ Saya Sudah Bayar</button>
-    <button onclick="closeQRIS()">Tutup</button>
+    <button class="btn-close" onclick="closeQRIS()">×</button>
   </div>
 </div>
 
@@ -434,7 +545,7 @@ input, button {
 
     <button onclick="copyDana()">📋 Copy Nomor</button>
     <button onclick="confirmBayar()">✅ Saya Sudah Bayar</button>
-    <button onclick="closeDANA()">Tutup</button>
+    <button class="btn-close" onclick="closeDANA()">×</button>
   </div>
 </div>
 
@@ -442,7 +553,7 @@ input, button {
   <div class="popup-box">
     <h3>✅ Berhasil</h3>
     <p>Order berhasil dikirim ke WhatsApp</p>
-    <button onclick="closeSuccess()">Oke</button>
+    <button class="btn-close" onclick="closeSuccess()">×</button>
   </div>
 </div>
 
@@ -487,7 +598,7 @@ input, button {
 
 </pre>
 
-    <button onclick="closeDeskripsi()">Tutup</button>
+    <button class="btn-close" onclick="closeDeskripsi()">×</button>
   </div>
 </div>
 
@@ -500,12 +611,48 @@ input, button {
 
 <div class="container">
 
-<div class="title">𓊈 LIST SUNTIK TIKTOK & INSTAGRAM𓊉 JYYR</div>
+<div class="title">
+  <img src="https://i.ibb.co.com/SLp1MC3/Proyek-Baru-6-Copy-2-3-BDA9-C6.png" class="logo-img">
+  <div class="nickname">JYYR</div>
+</div>
+
+<div style="
+  background: rgba(20,0,40,0.7);
+  border: 1px solid #9333ea;
+  padding: 10px;
+  border-radius: 14px;
+  margin: 10px auto 20px auto;
+  text-align: center;
+  color: #f0abfc;
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(147,51,234,0.3);
+  max-width: 600px;
+  overflow: hidden;
+">
+
+  <div style="
+    display: inline-block;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #f472b6;
+    margin-bottom: 8px;
+  ">
+    ⚠️ PENTING!
+  </div>
+
+  <div style="
+    white-space: nowrap;
+    display: inline-block;
+    animation: jalan 17s linear infinite;
+  ">
+    Sebelum membuat pesanan disarankan untuk membaca DESKRIPSI • Sebelum membuat pesanan disarankan untuk membaca DESKRIPSI • Sebelum membuat pesanan disarankan untuk membaca DESKRIPSI
+  </div>
+
+</div>
 
 <div class="grid">
 
 <div class="card">
-<h3>🛒 Order Otomatis</h3>
+<h3>𓊈 LIST SUNTIK TIKTOK & INSTAGRAM𓊉</h3>
 
 <div class="form">
 
@@ -620,18 +767,115 @@ input, button {
 
 <a href="https://whatsapp.com/channel/0029VbCH7C0E50Uid8KYwG1f" target="_blank" class="wa-float">
   <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WA">
-</a>
+  </a>
+  <script>
+  function previewBukti(event){
+  const file = event.target.files[0];
 
-<!-- BAGIAN ATAS SAMA PERSIS PUNYA KAMU (TIDAK DIUBAH) -->
-<!-- ... (SEMUA HTML & CSS KAMU TETAP) ... -->
+  if(file){
+    document.getElementById("uploadText").innerText = file.name;
 
-<script>
+    const reader = new FileReader();
+    reader.onload = function(e){
+      const img = document.getElementById("previewImg");
+      img.src = e.target.result;
+      img.style.display = "block";
+    }
+    reader.readAsDataURL(file);
+  }
+}
+
+let historyData = JSON.parse(localStorage.getItem("history") || "[]");
+
+/* ================= RIWAYAT ================= */
+function simpanRiwayat(user, layanan, jumlah, total, id){
+  historyData.push({
+    waktu: new Date().toLocaleString(),
+    user,
+    layanan,
+    jumlah,
+    total,
+    id
+  });
+
+  localStorage.setItem("history", JSON.stringify(historyData));
+  updateBadge();
+}
+
+function lihatRiwayat(){
+  let box = document.getElementById("listRiwayat");
+
+  if(historyData.length === 0){
+    box.innerHTML = "Belum ada pesanan";
+  } else {
+    let html = "";
+
+    historyData.slice().reverse().forEach((item, index) => {
+      html += `
+<div style="border-bottom:1px solid rgba(255,255,255,0.1);padding:10px 0">
+  <b>ID: ${item.id || "-"}</b><br>
+  <b>${item.user}</b><br>
+  ${item.layanan}<br>
+  Jumlah: ${item.jumlah}<br>
+  ${item.total}<br>
+  <small>${item.waktu}</small><br><br>
+
+        <button onclick="orderLagi(${historyData.length - 1 - index})">
+          🔄 Order Lagi
+        </button>
+      </div>
+      `;
+    });
+
+    box.innerHTML = html;
+  }
+
+  document.getElementById("popupRiwayat").classList.add("show");
+}
+
+function orderLagi(index){
+  let item = historyData[index];
+
+  document.getElementById("username").value = item.user;
+  document.getElementById("jumlah").value = item.jumlah;
+  document.getElementById("selectedText").innerText = item.layanan;
+
+  // 🔥 RESET ke default biar aman
+  document.getElementById("layanan").value = "75|9999|50";
+
+  updateHarga();
+  closeRiwayat();
+}
+
+function hapusRiwayat(){
+  historyData = [];
+  localStorage.removeItem("history");
+  updateBadge();
+  lihatRiwayat();
+}
+
+function closeRiwayat(){
+  document.getElementById("popupRiwayat").classList.remove("show");
+}
+
+function updateBadge(){
+  let badge = document.getElementById("badgeRiwayat");
+  if(!badge) return;
+
+  badge.innerText = historyData.length;
+  badge.style.display = historyData.length === 0 ? "none" : "block";
+}
+
+updateBadge();
+
+/* ================= PAYMENT ================= */
 function selectPay(el, metode){
   document.querySelectorAll(".pay-item").forEach(i=>i.classList.remove("active"));
   el.classList.add("active");
   document.getElementById("metode").value = metode;
 }
 
+/* ================= VALIDASI ================= */
 function bukaPembayaran(){
   var user = document.getElementById("username").value.trim();
   var jumlah = parseInt(document.getElementById("jumlah").value);
@@ -675,6 +919,7 @@ function bukaPembayaran(){
   }
 }
 
+/* ================= UTIL ================= */
 function copyDana(){
   let no = document.getElementById("nomorDana").innerText;
   navigator.clipboard.writeText(no);
@@ -689,6 +934,7 @@ function closeDeskripsi(){
   document.getElementById("popupDeskripsi").classList.remove("show");
 }
 
+/* ================= DROPDOWN ================= */
 function toggleDropdown(){
   document.querySelector(".dropdown").classList.toggle("active");
 }
@@ -721,6 +967,7 @@ function selectItem(el, event){
   updateHarga();
 }
 
+/* ================= HITUNG HARGA ================= */
 function updateHarga(){
   var data = document.getElementById("layanan").value.split("|");
 
@@ -740,40 +987,49 @@ function updateHarga(){
   }
 
   if(jumlah < min){
-    totalBox.innerHTML =
-      "<span class='error'>⚠️ Minimal order adalah " + min + "</span>";
+    totalBox.innerHTML = "<span class='error'>⚠️ Minimal " + min + "</span>";
     input.classList.add("input-error");
     return;
   }
 
   if(jumlah > max){
-    totalBox.innerHTML =
-      "<span class='error'>⚠️ Maksimal order adalah " + max + "</span>";
+    totalBox.innerHTML = "<span class='error'>⚠️ Maksimal " + max + "</span>";
     input.classList.add("input-error");
     return;
   }
 
   var total = harga * jumlah;
 
-  totalBox.innerHTML =
-    "Total: Rp " + total.toLocaleString("id-ID");
+  totalBox.innerHTML = "Total: Rp " + total.toLocaleString("id-ID");
 }
 
-/* ================= FIX UTAMA ================= */
+/* ================= CONFIRM BAYAR ================= */
 function confirmBayar(){
-  var user = document.getElementById("username").value.trim();
-  var layananText = document.getElementById("selectedText").innerText;
-  var jumlah = parseInt(document.getElementById("jumlah").value);
-  var totalText = document.getElementById("total").innerText;
+  const user = document.getElementById("username").value.trim();
+  const layananText = document.getElementById("selectedText").innerText;
+  const jumlah = parseInt(document.getElementById("jumlah").value);
+  const totalText = document.getElementById("total").innerText;
+  const metode = document.getElementById("metode").value;
+  const metodeText = metode.toUpperCase(); // QRIS / DANA
+  const tanggal = new Date().toLocaleString("id-ID", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit"
+});
 
-  var data = document.getElementById("layanan").value.split("|");
-  var min = parseInt(data[2]);
-  var max = parseInt(data[1]);
+  // 🔥 ID PESANAN (lebih unik)
+  const orderId = "JYYR-" + Date.now();
 
-  var input = document.getElementById("jumlah");
+  const data = document.getElementById("layanan").value.split("|");
+  const min = parseInt(data[2]);
+  const max = parseInt(data[1]);
 
+  const input = document.getElementById("jumlah");
   input.classList.remove("input-error");
 
+  // ================= VALIDASI =================
   if(!user){
     showError("Username wajib diisi!");
     return;
@@ -797,41 +1053,76 @@ function confirmBayar(){
     return;
   }
 
+  // 🔥 QRIS WAJIB UPLOAD
+  if(metode === "qris"){
+    const fileInput = document.getElementById("bukti");
+    if(!fileInput || fileInput.files.length === 0){
+      showError("Upload bukti pembayaran dulu!");
+      return;
+    }
+  }
+
+  // ================= CLOSE POPUP =================
   document.getElementById("popupQRIS").classList.remove("show");
   document.getElementById("popupDANA").classList.remove("show");
 
   showLoading();
 
-  var nomor = "6283890777348";
+  const nomor = "6283890777348";
 
-  var text = "Halo Admin JYYR STORE%0A%0A"
-           + "Saya SUDAH BAYAR%0A"
-           + "====================%0A"
-           + "Username: " + user + "%0A"
-           + "Layanan: " + layananText + "%0A"
-           + "Jumlah: " + jumlah + "%0A"
-           + totalText + "%0A"
-           + "====================";
+  const text = 
+  "Halo Admin JYYR STORE\n\n" +
+  "Saya SUDAH BAYAR\n" +
+  "====================\n" +
+  "📦 Layanan: " + layananText + "\n" +
+  "🔗 Username: " + user + "\n" +
+  "🆔 ID Pesanan: " + orderId + "\n" +
+  "📅 Tanggal: " + tanggal + "\n" +
+  "💳 Metode: " + metodeText + "\n" +
+  "🔢 Jumlah: " + jumlah.toLocaleString("id-ID") + "\n" +
+  totalText + "\n" +
+  "====================";
 
   setTimeout(() => {
     hideLoading();
+
+    // 🔥 AMBIL ANGKA TOTAL (anti bug format)
+    const totalAngka = totalText.replace(/[^\d]/g, "");
+
+    // 🔥 SIMPAN RIWAYAT + ID
+    simpanRiwayat(user, layananText, jumlah, totalAngka, orderId);
+
     showSuccess();
 
     setTimeout(() => {
-      window.open("https://wa.me/" + nomor + "?text=" + text, "_blank");
+      window.open(
+        "https://wa.me/" + nomor + "?text=" + encodeURIComponent(text),
+        "_blank"
+      );
 
-      // reset form
+      // ================= RESET FORM =================
       document.getElementById("username").value = "";
       document.getElementById("jumlah").value = "";
       document.getElementById("total").innerText = "Total: Rp 0";
+
+      // 🔥 reset dropdown ke default
+      document.getElementById("selectedText").innerText = "📈 TikTok Followers — Rp75 / 1 (Min 50)";
+      document.getElementById("layanan").value = "75|9999|50";
+
+      // 🔥 reset upload
+      const fileInput = document.getElementById("bukti");
+      if(fileInput){
+        fileInput.value = "";
+        document.getElementById("previewImg").style.display = "none";
+        document.getElementById("uploadText").innerText = "📸 Upload Bukti Pembayaran";
+      }
 
     }, 1000);
 
   }, 1200);
 }
-/* ============================================ */
 
-/* FIX: HARUS DI LUAR */
+/* ================= POPUP ================= */
 function closeQRIS(){
   document.getElementById("popupQRIS").classList.remove("show");
 }
@@ -840,7 +1131,6 @@ function closeDANA(){
   document.getElementById("popupDANA").classList.remove("show");
 }
 
-/* ERROR POPUP */
 function showError(msg){
   document.getElementById("popupText").innerText = msg;
   document.getElementById("popupError").classList.add("show");
@@ -850,9 +1140,10 @@ function closePopup(){
   document.getElementById("popupError").classList.remove("show");
 }
 
+/* ================= GLOBAL ================= */
 document.addEventListener("click", function(e){
   const dropdown = document.querySelector(".dropdown");
-  if(!dropdown.contains(e.target)){
+  if(dropdown && !dropdown.contains(e.target)){
     dropdown.classList.remove("active");
   }
 });
@@ -873,12 +1164,15 @@ function closeSuccess(){
   document.getElementById("popupSuccess").classList.remove("show");
 }
 
-/* ANIMASI TOMBOL */
-document.getElementById("orderBtn").addEventListener("click", function(){
-  this.style.transform = "scale(0.97)";
-  setTimeout(() => this.style.transform = "scale(1)", 150);
-});
+/* ================= ANIMASI ================= */
+var orderBtn = document.getElementById("orderBtn");
+if(orderBtn){
+  orderBtn.addEventListener("click", function(){
+    this.style.transform = "scale(0.97)";
+    setTimeout(() => this.style.transform = "scale(1)", 150);
+  });
+}
 </script>
 
 </body>
-  </html>
+</html>
